@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 10px 0 20px;
+        background-color: bisque;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      input {
+        padding: 5px;
+      }
+
+      button {
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .user {
+        margin-top: 20px;
+        width: 50%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      img {
+        width: 80px;
+        height: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Tìm thông tin người dùng</h2>
+      <div class="form">
+        <input type="text" placeholder="Tên user" />
+        <button type="button">Tìm</button>
+      </div>
+
+      <div class="user"></div>
+    </div>
+
+    <script>
+      const input = document.querySelector("input");
+      const button = document.querySelector("button");
+      const userDiv = document.querySelector(".user");
+
+      button.addEventListener("click", () => {
+        let result = null;
+        fetch(`https://api.github.com/users/${input.value}`).then(
+          async (res) => {
+            const result = await res.json();
+            if (res.status >= 400) {
+              userDiv.innerHTML = `<p>không tìm thấy người dùng</p>`;
+            } else {
+              userDiv.innerHTML = `
+                <img src="${result.avatar_url}"/>
+                <div>
+                  <p>Tên: ${result.name}</p>
+                  <p>Công ty: ${result.company || "không có"}</p>
+                  <p>Số người follow: ${result.followers}</p>
+                </div>
+              `;
+            }
+          }
+        );
+      });
+    </script>
+  </body>
+</html>
