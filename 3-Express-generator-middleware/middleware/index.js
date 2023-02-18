@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 
 const openPath = (req, res, next) => {
-  console.log(`${req.method} http://localhost:${port}${req.path}`);
+  console.log(
+    `${req.method} ${req.protocol}://${req.hostname}:${port}${req.originalUrl}`
+  );
   next();
 };
 
@@ -16,8 +18,8 @@ const auth = (req, res, next) => {
   res.status(401).send("No auth");
 };
 
-app.use(openPath);
 app.use(express.json());
+app.use(openPath);
 
 app.get("/", (req, res) => {
   res.send("Home Page");
