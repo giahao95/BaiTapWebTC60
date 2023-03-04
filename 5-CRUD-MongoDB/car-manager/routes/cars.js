@@ -1,8 +1,9 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const CarModel = require("../model/car.model");
+const CarModel = require('../model/car.model');
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.post("/", (req, res) => {
+router.post('/', authMiddleware, (req, res) => {
   const car = new CarModel();
   car.name = req.body.name;
   car.manufacturer = req.body.manufacturer;
@@ -10,37 +11,37 @@ router.post("/", (req, res) => {
 
   car.save((err, car) => {
     if (err) {
-      res.send("Them khong thanh cong");
+      res.send('Them khong thanh cong');
     } else {
-      console.log("Them thanh cong");
+      console.log('Them thanh cong');
       res.send(car);
     }
   });
 });
 
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   CarModel.find({ name: req.query.name }).exec((err, cars) => {
     if (err) {
-      res.send("Khong the lay thong tin xe oto");
+      res.send('Khong the lay thong tin xe oto');
     } else {
-      console.log("Lay thanh cong danh sach xe oto");
+      console.log('Lay thanh cong danh sach xe oto');
       res.json(cars);
     }
   });
 });
 
-router.get("/:id", (req, res) => {
+router.get('/:id', (req, res) => {
   CarModel.findOne({ _id: req.params.id }).exec((err, car) => {
     if (err) {
-      res.send("Co loi xay re");
+      res.send('Co loi xay re');
     } else {
-      console.log("Tim thanh cong");
+      console.log('Tim thanh cong');
       res.json(car);
     }
   });
 });
 
-router.put("/:id", (req, res) => {
+router.put('/:id', authMiddleware, (req, res) => {
   CarModel.findOneAndUpdate(
     { _id: req.params.id },
     {
@@ -51,9 +52,9 @@ router.put("/:id", (req, res) => {
     },
     (err, car) => {
       if (err) {
-        res.send("Cap nhat that bai");
+        res.send('Cap nhat that bai');
       } else {
-        res.status(200).send("Cap that thanh cong");
+        res.status(200).send('Cap that thanh cong');
       }
     }
   );
