@@ -2,7 +2,6 @@ const userModel = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { default: mongoose } = require('mongoose');
 
 // Đăng ký user mới
 const registerUser = asyncHandler(async (req, res) => {
@@ -72,9 +71,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     user.name = name || user.name;
     user.email = email || user.email;
-    user.password = password || user.password;
-    const newUser = await user.save();
-    res.status(200).json(newUser);
+    if (password) user.password = password;
+    const updateUser = await user.save();
+    res.status(200).json(updateUser);
   } else {
     res.status(404);
     throw new Error('User info not found');
