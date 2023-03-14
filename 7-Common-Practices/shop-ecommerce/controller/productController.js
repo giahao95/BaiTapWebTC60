@@ -44,16 +44,8 @@ const deleteProductById = asyncHandler(async (req, res) => {
 
 // Create product
 const createProduct = asyncHandler(async (req, res) => {
-  const {
-    name,
-    image,
-    brand,
-    category,
-    description,
-    price,
-    countInStock,
-    rating,
-  } = req.body;
+  const { name, image, brand, category, description, price, countInStock } =
+    req.body;
 
   const productExists = await productModel.findOne({ name });
   if (productExists) {
@@ -70,7 +62,6 @@ const createProduct = asyncHandler(async (req, res) => {
     description,
     price,
     countInStock,
-    rating,
   });
 
   if (newProduct) {
