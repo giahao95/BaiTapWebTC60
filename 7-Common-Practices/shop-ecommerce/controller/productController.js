@@ -1,6 +1,5 @@
 const productModel = require('../models/productModel');
 const asyncHandler = require('express-async-handler');
-const { syncIndexes } = require('../models/productModel');
 
 // Get all products
 const getAllProducts = asyncHandler(async (req, res) => {

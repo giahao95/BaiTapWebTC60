@@ -2,6 +2,7 @@ const userModel = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
 
 // Đăng ký user mới
 const registerUser = asyncHandler(async (req, res) => {
